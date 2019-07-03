@@ -1,24 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
+
+import EXAMPLE_COLLAGE from './_collages/EXAMPLE';
+
+import Player from './Player/Player';
+import Collage from './Collage/Collage';
+
 import './App.css';
 
 function App() {
+  const [collage] = React.useState(EXAMPLE_COLLAGE);
+  const [position, setPosition] = React.useState(0);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Player bpm={collage.bpm} pieces={collage.pieces} position={position} setPosition={setPosition} />
+      <Collage collage={collage} position={position} />
     </div>
   );
 }
