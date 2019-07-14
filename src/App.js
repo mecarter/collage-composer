@@ -7,13 +7,22 @@ import Collage from './Collage/Collage';
 
 import './App.css';
 
-function App() {
-  const [collage] = React.useState(EXAMPLE_COLLAGE);
+const App = () => {
+  const [collage, updateCollage] = React.useState(EXAMPLE_COLLAGE);
   const [position, setPosition] = React.useState(0);
   return (
     <div className="App">
-      <Player bpm={collage.bpm} pieces={collage.pieces} position={position} setPosition={setPosition} />
-      <Collage collage={collage} position={position} />
+      <Player
+        bpm={collage.bpm}
+        pieces={collage.pieces}
+        position={position}
+        setPosition={setPosition}
+      />
+      <Collage
+        collage={collage}
+        position={position}
+        updateCollage={updateCollage}
+      />
     </div>
   );
 }

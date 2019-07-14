@@ -23,6 +23,14 @@ class Player extends React.Component {
     }
   }
 
+  queuePieces = () => Promise.all(this.props.pieces.map(this.loadAudio)).then(bufferObjects => {
+    const buffers = bufferObjects.reduce((acc, bufferObject) => ({
+      ...acc,
+      ...bufferObject,
+    }), {});
+    this.setState({ buffers });
+  });
+
   loadAudio = ({ id, audio }) => new Promise((resolve, reject) => {
     const request = new XMLHttpRequest();
     request.open('GET', audio, true);
@@ -38,14 +46,6 @@ class Player extends React.Component {
     request.send();
   })
 
-  queuePieces = () => Promise.all(this.props.pieces.map(this.loadAudio)).then(bufferObjects => {
-    const buffers = bufferObjects.reduce((acc, bufferObject) => ({
-      ...acc,
-      ...bufferObject,
-    }), {});
-    this.setState({ buffers });
-  });
-
   playAudio = id => {
     const source = this.AudioContext.createBufferSource();
     source.buffer = this.state.buffers[id];
@@ -53,13 +53,15 @@ class Player extends React.Component {
     source.start(0);
   }
 
+  updatePosition = () => {
+    const newPosition = this.props.position === 1199 ? 0 : this.props.position + 1;
+    const pieceToPlay = this.props.pieces.find(({ position: { y }}) => y === newPosition);
+    if (pieceToPlay) this.playAudio(pieceToPlay.id);
+    this.props.setPosition(newPosition);
+  }
+
   startPlayer = () => {
-    this.positionCounter = setInterval(() => {
-      const newPosition = this.props.position === 1199 ? 0 : this.props.position + 1;
-      const pieceToPlay = this.props.pieces.find(({ position: { x }}) => x === newPosition);
-      if (pieceToPlay) this.playAudio(pieceToPlay.id);
-      this.props.setPosition(newPosition);
-    }, 600 / this.props.bpm)
+    this.positionCounter = setInterval(this.updatePosition, 600 / this.props.bpm)
   }
 
   render = () => null;

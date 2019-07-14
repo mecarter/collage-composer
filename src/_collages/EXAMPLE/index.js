@@ -12,6 +12,10 @@ const EXAMPLE_COLLAGE = {
       id: 'bird',
       image: BirdImage,
       audio: BirdAudio,
+      dimensions: {
+        width: 500,
+        height: 500,
+      },
       position: {
         x: 500,
         y: 500,
@@ -21,6 +25,10 @@ const EXAMPLE_COLLAGE = {
       id: 'taco',
       image: TacoImage,
       audio: TacoAudio,
+      dimensions: {
+        width: 400, 
+        height: 252,
+      },
       position: {
         x: 200,
         y: 200,
